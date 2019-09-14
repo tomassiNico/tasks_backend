@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Category.belongsToMany(models.Task, {
       through: 'TaskCategories',
-      as: 'tasks'
+      as: 'tasks',
+      foreignKey: "taskId"
     });
   };
   return Category;
