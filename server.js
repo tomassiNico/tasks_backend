@@ -22,11 +22,17 @@ app.use(bodyParser.urlencoded({extented: true}));
 app.use(methodOverride('_method'));
 app.set('view engine', 'pug');
 
-app.use(session({
+let sessionConfig = {
   secret: ["bjhb3u1g2dv1i4f76wx712v2b7r8b1278461","uiy123bc71280346b123713z,vsduiifv"],
   saveUnitialized: false,
   resave: false
-}));
+};
+
+if(process.env.NODE_ENV && process.env.NODE_ENV == 'production'){
+  sessionConfig['store'] = new (require('connect-pg-simple')(session))();
+}
+
+app.use(session(sessionConfig));
 
 app.use(findUserMiddleware);
 app.use(authUserMiddleware);
